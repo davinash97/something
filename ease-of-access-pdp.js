@@ -4,24 +4,26 @@
 // @description  Get Node-ids for each nodes from parent to child and copy it to clipboard
 // @author       avidunna
 // @match        https://www.amazon.*/*
-// @updateURL    
-// @downloadURL
+// @updateURL    https://raw.githubusercontent.com/davinash97/something/refs/heads/master/ease-of-access-pdp.js
+// @downloadURL  https://raw.githubusercontent.com/davinash97/something/refs/heads/master/ease-of-access-pdp.js
 // @run-at       document-end
 // ==/UserScript==
+
+"use strict";
 
 (() => {
   console.log("ease-of-access: start");
   function copyDetails() {
     const getText = (selector) =>
-        document.querySelector(selector)?.innerText.trim() || "";
+      document.querySelector(selector)?.innerText.trim() || "";
 
-      return {
-        title: getText('#productTitle'),
-        bullets: getText('.a-normal.a-spacing-micro'),
-        description: getText('#feature-bullets'),
-        path: getText('.a-unordered-list')
-      };
-    }
+    return {
+      title: getText('#productTitle'),
+      bullets: getText('.a-normal.a-spacing-micro'),
+      description: getText('#feature-bullets'),
+      path: getText('.a-unordered-list')
+    };
+  }
 
   document.addEventListener('keydown', (event) => {
     if (event.repeat) return;
@@ -39,6 +41,7 @@
       navigator.clipboard.writeText(text);
       console.log("Copied product details!");
     }
-  })}
- console.log("ease-of-access: end");
+  })
+  console.log("ease-of-access: end")
+}
 )()
