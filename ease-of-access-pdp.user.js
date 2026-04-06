@@ -3,7 +3,7 @@
 // @namespace    OrangeMonkey Scripts
 // @version      1.0
 // @description  Copy product title, description, and suggested nodes with the key 'a'
-// @author       avidunna
+// @author       avidunna@
 // @match        https://www.amazon.*/*
 // @match        https://www.amazon.co.jp/*
 // @match        https://www.amazon.com/*
