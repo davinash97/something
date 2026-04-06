@@ -30,8 +30,8 @@
 // @match        https://www.amazon.co.za/*
 // @match        http://www.amazon.ru/*
 // @match        https://www.amazon.sg/*
-// @updateURL    https://raw.githubusercontent.com/davinash97/something/refs/heads/master/ease-of-access-pdp.js
-// @downloadURL  https://raw.githubusercontent.com/davinash97/something/refs/heads/master/ease-of-access-pdp.js
+// @updateURL    https://github.com/davinash97/something/raw/refs/heads/master/ease-of-access-pdp.user.js
+// @downloadURL  https://github.com/davinash97/something/raw/refs/heads/master/ease-of-access-pdp.user.js
 // @run-at       document-end
 // ==/UserScript==
 
