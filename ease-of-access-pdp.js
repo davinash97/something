@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         ease-of-access-pdp
 // @namespace    OrangeMonkey Scripts
-// @description  Get Node-ids for each nodes from parent to child and copy it to clipboard
+// @version      1.0
+// @description  Copy product title, description, and suggested nodes with the key 'a'
 // @author       avidunna
 // @match        https://www.amazon.*/*
 // @match        https://www.amazon.co.jp/*
