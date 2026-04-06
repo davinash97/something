@@ -45,8 +45,8 @@
 
     return {
       title: getText('#productTitle'),
-      bullets: getText('.a-normal.a-spacing-micro'),
-      description: getText('#feature-bullets'),
+      bullets: getText('#feature-bullets'),
+      description: getText('.a-normal.a-spacing-micro'),
       path: getText('.a-unordered-list')
     };
   }
@@ -75,7 +75,9 @@
       }
         break;
       case "l": {
-        await pasteToCliboard(window.location.href.replace(/[^A-Z0-9]?\?th=1?/g, ""));
+        const not_need = window.location.search;
+
+        await pasteToCliboard(window.location.href.replaceAll(not_need, ""));
         console.log("Copied product link!");
       }
         break;
