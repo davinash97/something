@@ -51,21 +51,37 @@
     };
   }
 
-  document.addEventListener('keydown', (event) => {
+  async function pasteToCliboard(data) {
+    return navigator.clipboard.writeText(data);
+  }
+
+  document.addEventListener('keydown', async (event) => {
     if (event.repeat) return;
     if (event.ctrlKey || event.metaKey || event.altKey) return;
 
     const key = event.key.toLowerCase();
 
-    if (key === "a") {
-      event.preventDefault();
+    switch (key) {
+      case "a": {
+        event.preventDefault();
 
-      const { title, bullets, description, path } = copyDetails();
+        const { title, bullets, description, path } = copyDetails();
 
-      const text = `Product Title: ${title}\n\nProduct Bullets: ${bullets}\n\nProduct Description: ${description.replaceAll(/(Show more)?(About this item)?(›\s?\s?See more product details)?/g, "").trim()}\n\nSuggested Path: ${path.replaceAll(/\s/g, "").replaceAll(/›/g, " $& ").replaceAll(/\d/g, "")}`;
+        const text = `Product Title: ${title}\n\nProduct Bullets: ${bullets}\n\nProduct Description: ${description.replaceAll(/(Show more)?(About this item)?(›\s?\s?See more product details)?/g, "").trim()}\n\nSuggested Path: ${path.replaceAll(/\s/g, "").replaceAll(/›/g, " $& ").replaceAll(/\d/g, "")}`;
 
-      navigator.clipboard.writeText(text);
-      console.log("Copied product details!");
+        await pasteToCliboard(text);
+
+        console.log("Copied product details!");
+      }
+        break;
+      case "l": {
+        await pasteToCliboard(window.location.href.replace(/[^A-Z0-9]?\?th=1?/g, ""));
+        console.log("Copied product link!");
+      }
+        break;
+
+      default:
+        break;
     }
   })
   console.log("ease-of-access: end")
