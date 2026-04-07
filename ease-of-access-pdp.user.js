@@ -46,7 +46,7 @@
     return {
       title: getText('#productTitle'),
       bullets: getText('#feature-bullets') || getText(".a-unordered-list.a-vertical.a-spacing-small"),
-      description: getText('.a-normal.a-spacing-micro') || getText("#voyager-ns-desktop-side-sheet-container"),
+      description: getText('.a-normal.a-spacing-micro') || getText("#voyager-ns-desktop-side-sheet-container") || getText(".a-row.a-spacing-top-base"),
       path: getText('.a-unordered-list')
     };
   }
