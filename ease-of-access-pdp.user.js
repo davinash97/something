@@ -45,8 +45,8 @@
 
     return {
       title: getText('#productTitle'),
-      bullets: getText('#feature-bullets'),
-      description: getText('.a-normal.a-spacing-micro'),
+      bullets: getText('#feature-bullets') || getText(".a-unordered-list.a-vertical.a-spacing-small"),
+      description: getText('.a-normal.a-spacing-micro') || getText("#voyager-ns-desktop-side-sheet-container"),
       path: getText('.a-unordered-list')
     };
   }
@@ -67,7 +67,7 @@
 
         const { title, bullets, description, path } = copyDetails();
 
-        const text = `Product Title: ${title}\n\nProduct Bullets: ${bullets}\n\nProduct Description: ${description.replaceAll(/(Show more)?(About this item)?(›\s?\s?See more product details)?/g, "").trim()}\n\nSuggested Path: ${path.replaceAll(/\s/g, "").replaceAll(/›/g, " $& ").replaceAll(/\d/g, "")}`;
+        const text = `Product Title: ${title}\n\nProduct Bullets: ${bullets}\n\nProduct Description: ${description.replaceAll(/(Show more|About this item|›\s*See more product details|Product specifications|ASIN[\s\S]*?stars)/gi,"").replaceAll(/\s{2,}/g, " ").replaceAll(/(\(\d+\)\s*\d+(\.\d+)?\s*out of 5 stars)/g,"")}\n\nSuggested Path: ${path.replaceAll(/(\s)?(\d)?/g, "").replaceAll(/›/g, " $& ")}`;
 
         await pasteToCliboard(text);
 
@@ -76,12 +76,10 @@
         break;
       case "l": {
         const not_need = window.location.search;
-
         await pasteToCliboard(window.location.href.replaceAll(not_need, ""));
         console.log("Copied product link!");
       }
         break;
-
       default:
         break;
     }
