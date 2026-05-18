@@ -2,7 +2,7 @@
 // @name        helper-for-GTM-user
 // @namespace   http://tampermonkey.net/
 // @description Auto-redirect to Product Types tab
-// @match       https://gt-manager.pk.amazon.dev/category/*
+// @match       https://gt-manager.pk.amazon.dev/*
 // @version     1.1
 // @run-at		document-end
 // @author      @avidunna
@@ -102,11 +102,20 @@
                 break;
             }
             case "a": {
-                const nodePath = document.querySelectorAll('.path-notation')
-                const nodeId = document.querySelectorAll('[data-qa="column-id"]')
-                if (!nodePath || !nodeId) return;
-                let result = "The available nodes for this marketplace are -\n";
+              let nodePath = "";
+              let nodeId = "";
+              let productType = window.location.pathname.includes('producttypes');
 
+              if(productType) {
+                nodePath = document.querySelectorAll('.pt-path');
+                nodeId = document.querySelectorAll(".pt-mapping-id");
+              } else {
+                nodePath = document.querySelectorAll('.path-notation');
+                nodeId = document.querySelectorAll('[data-qa="column-id"]');
+              }
+
+                let result = "The available nodes for this marketplace are -\n";
+            
                 let n = 0;
                 if(nodeId.length === nodePath.length) n = nodeId.length;
                 for(let i = 0; i < n; i++) {
