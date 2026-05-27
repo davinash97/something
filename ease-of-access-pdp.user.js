@@ -37,70 +37,60 @@
 
 "use strict";
 
-(() => {
-	console.log("ease-of-access: start");
-	function copyDetails() {
-		const getText = (selector) =>
-			document.querySelector(selector)?.innerText.trim() || "";
+(async () => {
+  console.log("ease-of-access: start");
+  async function copyDetails() {
+    const getText = (selector) =>
+      document.querySelector(selector)?.innerText.trim() || "";
 
-		return {
-			title: getText("#productTitle"),
-			bullets:
-				getText("#feature-bullets") ||
-				getText(".a-unordered-list.a-vertical.a-spacing-small"),
-			description:
-				getText("#productDetails_expanderSectionTables") ||
-				getText(".a-normal.a-spacing-micro") ||
-				getText("#voyager-ns-desktop-side-sheet-container") ||
-				getText(".a-row.a-spacing-top-base") ||
-				getText("[role='list']"),
-			path: getText(".a-unordered-list.a-horizontal.a-size-small"),
-		};
-	}
+    return {
+      title: getText('#productTitle'),
+      bullets: getText('#feature-bullets') || getText(".a-unordered-list.a-vertical.a-spacing-small"),
+      description:  getText("#voyagerAccordian_feature_div") || getText("#productDescription") || getText('#productDetails_expanderSectionTables') || getText('.a-normal.a-spacing-micro') || getText("#voyager-ns-desktop-side-sheet-container") || getText(".a-row.a-spacing-top-base") || getText("[role='list']"),
+      information: getText("#prodDetails"),
+      path: getText('.a-unordered-list.a-horizontal.a-size-small')
+    };
+  }
 
-	async function pasteToCliboard(data) {
-		return navigator.clipboard.writeText(data);
-	}
+  async function pasteToCliboard(data) {
+    return navigator.clipboard.writeText(data);
+  }
 
-	async function pasteAllTheData() {
-		const { title, bullets, description, path } = copyDetails();
+  async function pasteAllTheData() {
+      const { title, bullets, description, path, information } = await copyDetails();
 
-		let result = "";
+      let result = "";
 
-		if (title) {
-			result += `Product Title: ${title}\n\n`;
-		}
+      if(title) {
+        result += `Product Title: ${title}\n\n`;
+      }
 
-		if (bullets) {
-			result += `Product Bullets: ${bullets}\n\n`;
-		}
+      if(bullets) {
+        result += "Product Bullet: " + bullets.trim() + "\n\n";
+      }
 
-		if (description) {
-			result += `Product Description: ${description
-				.replaceAll(
-					/(Show more|About this item|›\s*See more product details|Product specifications|ASIN[\s\S]*?stars)/gi,
-					"",
-				)
-				.replaceAll(/\s{2,}/g, " ")
-				.replaceAll(/(\(\d+\)\s*\d+(\.\d+)?\s*out of 5 stars)/g, "")}\n\n`;
-		}
+      if(description) {
+        result += `Product Description: ${description.trim().replaceAll(/(Show more|About this item|›\s*See more product details|Product specifications|ASIN[\s\S]*?stars)/gi,"").replaceAll(/\s{2,}/g, " ").replaceAll(/(\(\d+\)\s*\d+(\.\d+)?\s*out of 5 stars)/g,"")}\n\n`;
+      }
 
-		if (path) {
-			result +=
-				"Suggested Path: " +
-				path.replaceAll(/(\s)?(\d)?/g, "").replaceAll(/›/g, " $& ");
-		}
+      if(information) {
+        result += `${information}\n\n`;
+      }
 
-		await pasteToCliboard(result);
+      if(path) {
+        result += "Suggested Path: " + path.replaceAll(/(copy)/g,"").replaceAll(/(\n)?(\d)?/g, "").replaceAll(/›/g, " $& ");
+      }
 
-		console.log("Copied product details!");
-	}
+      await pasteToCliboard(result);
 
-	document.addEventListener("keydown", async (event) => {
-		if (event.repeat) return;
-		if (event.ctrlKey || event.metaKey || event.altKey) return;
+      console.log("Copied product details!");
+  }
 
-		const active = document.activeElement;
+  document.addEventListener('keydown', async (event) => {
+    if (event.repeat) return;
+    if (event.ctrlKey || event.metaKey || event.altKey) return;
+
+    const active = document.activeElement;
 
 		// Allow typing in Amazon editors/inputs
 		if (
@@ -113,25 +103,24 @@
 			return;
 		}
 
-		const key = event.key.toLowerCase();
+    const key = event.key.toLowerCase();
 
-		switch (key) {
-			case "a":
-				{
-					event.preventDefault();
-					pasteAllTheData();
-				}
-				break;
-			case "l":
-				{
-					const not_need = window.location.search;
-					await pasteToCliboard(window.location.href.replaceAll(not_need, ""));
-					console.log("Copied product link!");
-				}
-				break;
-			default:
-				break;
-		}
-	});
-	console.log("ease-of-access: end");
-})();
+    switch (key) {
+      case "a": {
+        event.preventDefault();
+        pasteAllTheData();
+      }
+        break;
+      case "l": {
+        const not_need = window.location.search;
+        await pasteToCliboard(window.location.href.replaceAll(not_need, ""));
+        console.log("Copied product link!");
+      }
+        break;
+      default:
+        break;
+    }
+  })
+  console.log("ease-of-access: end");
+}
+)()
